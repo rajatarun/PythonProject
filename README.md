@@ -1,0 +1,2 @@
+# PythonProject
+Discrite Math calculator
