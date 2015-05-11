@@ -1,0 +1,46 @@
+'''
+Created on Dec 17, 2014
+
+@author: rajatarun
+'''
+import urllib3;
+def removeextra(a):
+    a1 = [];
+    for i in a:
+        a1.append(i);
+    ind = [];
+    for i in range(len(a1)):
+        if(a1[i] == '@'):
+            ind.append(i);
+    string = '';
+    if(ind != []):
+        for i in range(ind[0]+1,ind[len(ind)-1]):
+            string = string+a[i];
+        return(string);
+    else:
+        return(a);
+
+page = urllib3.PoolManager();
+input1 = raw_input("enter a web address")
+a = page.request('GET','{}'.format(input1));
+with open("test.txt","w") as f:
+    f.write(a.data);
+    f.close();
+f = open("test1.txt","w");
+import fileinput
+for line in fileinput.FileInput("test.txt",inplace=1):
+    if line.rstrip():
+        f.write(line);
+f.close();
+f = open("test1.txt","r");
+with open("urls.txt","w") as g:
+    for line in f:
+        string = line;
+        string1 = string.split();
+        for a in string1:
+            if a.__contains__("http"):
+                a1 = str(a);
+                g.write(removeextra(a1.replace("'", "@").replace('"', "@")));
+                g.write('\n')
+    g.close();
+
